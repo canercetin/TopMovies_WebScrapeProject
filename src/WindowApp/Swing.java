@@ -48,17 +48,14 @@ public class Swing implements ActionListener {
 		jsoup = jsoup_;		
 		
 		//Frame
-		log.info("Setting frame size...");
 		frame.setSize(800,600);
 		frame.setResizable(false);
 		
 		//Icon
-		log.info("Setting icon...");
 		Image icon = Toolkit.getDefaultToolkit().getImage("C:/Users/Caner/eclipse-workspace/TopMovies_WebScrapeProject/src/WindowApp/icon.png");  
 		frame.setIconImage(icon);
 		
 		//Menu
-		log.info("Creating menu...");
 		JMenuBar menuBar = new JMenuBar();
 		JMenu genres = new JMenu("Select Genre");
 		menuBar.add(genres);
@@ -73,15 +70,12 @@ public class Swing implements ActionListener {
 		drama = new JMenuItem("Drama"); genres.add(drama); drama.addActionListener(this);
 		family = new JMenuItem("Family"); genres.add(family); family.addActionListener(this);
 		fantasy = new JMenuItem("Fantasy"); genres.add(fantasy); fantasy.addActionListener(this);
-		log.info("Menu created.");
 		
 		//Label
-		log.info("Creating label...");
 		label.setBounds(50, 10, 100, 50);
 		frame.add(label);
 		
 		//Table
-		log.info("Creating table...");
 		table = new JTable(jsoup.GetAll(),tableTitles);
 		scroll = new JScrollPane(table);
 		table.setEnabled(false);
@@ -89,7 +83,6 @@ public class Swing implements ActionListener {
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setBounds(15, 50, frame.getWidth()-50, frame.getHeight()-150);
 		frame.add(scroll);
-		log.info("Table created.");
 		
 		frame.setJMenuBar(menuBar);		
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);		
