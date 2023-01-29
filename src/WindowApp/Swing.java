@@ -27,8 +27,7 @@ public class Swing implements ActionListener {
 	JFrame frame = new JFrame("Top Movies");
 	
 	//Menu
-	JMenuItem all, action, adventure, animation, biography, comedy,
-	crime, drama, family, fantasy;
+	JMenuItem[] menuItems; 
 	
 	//Label
 	JLabel label = new JLabel("All");
@@ -59,18 +58,18 @@ public class Swing implements ActionListener {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu genres = new JMenu("Select Genre");
 		menuBar.add(genres);
-						
-		all = new JMenuItem("All"); genres.add(all); all.addActionListener(this);		
-		action = new JMenuItem("Action"); genres.add(action); action.addActionListener(this);	
-		adventure = new JMenuItem("Adventure"); genres.add(adventure); adventure.addActionListener(this);	
-		animation = new JMenuItem("Animation"); genres.add(animation); animation.addActionListener(this);
-		biography = new JMenuItem("Biography"); genres.add(biography); biography.addActionListener(this);
-		comedy = new JMenuItem("Comedy"); genres.add(comedy); comedy.addActionListener(this);
-		crime = new JMenuItem("Crime"); genres.add(crime); crime.addActionListener(this);
-		drama = new JMenuItem("Drama"); genres.add(drama); drama.addActionListener(this);
-		family = new JMenuItem("Family"); genres.add(family); family.addActionListener(this);
-		fantasy = new JMenuItem("Fantasy"); genres.add(fantasy); fantasy.addActionListener(this);
 		
+		//Get Button Names
+		String[] genreNames  = jsoup.GetGenres();		
+		
+		//Set Buttons
+		menuItems = new JMenuItem[genreNames.length];
+		
+		for(int i=0; i<menuItems.length; i++) {
+			menuItems[i] = new JMenuItem(genreNames[i]);
+			genres.add(menuItems[i]);
+			menuItems[i].addActionListener(this);
+		}
 		//Label
 		label.setBounds(50, 10, 100, 50);
 		frame.add(label);
@@ -95,7 +94,7 @@ public class Swing implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		log.info("actionPerformed("+e.getActionCommand()+") method IN");
-		if(e.getSource() == all) {
+		if(e.getSource() == menuItems[0]) {
 				try {
 					String[][] movies = jsoup.GetAll();
 					for(int i = 0; i < movies.length; i++) {
@@ -106,10 +105,9 @@ public class Swing implements ActionListener {
 					label.setText("All");
 				} catch (IOException e1) {log.error(e1.getMessage());}
 				
-		}
-		if(e.getSource() == action) {
+		}else{
 			try {
-				String[][] movies = jsoup.GetByGenre("action");
+				String[][] movies = jsoup.GetByGenre(e.getActionCommand().toLowerCase());
 				for(int i = 0; i < movies.length; i++) {
 					table.setValueAt(movies[i][0], i, 0);
 					table.setValueAt(movies[i][1], i, 1);
@@ -117,101 +115,6 @@ public class Swing implements ActionListener {
 				}
 				label.setText("Action");
 				throw(new IOException("This is an error!"));
-			} catch (IOException e1) {log.error(e1.getMessage());}
-			
-		}
-		if(e.getSource() == adventure) {
-			try {
-				String[][] movies = jsoup.GetByGenre("adventure");
-				for(int i = 0; i < movies.length; i++) {
-					table.setValueAt(movies[i][0], i, 0);
-					table.setValueAt(movies[i][1], i, 1);
-					table.setValueAt(movies[i][2], i, 2);
-				}
-				label.setText("Adventure");
-			} catch (IOException e1) {log.error(e1.getMessage());}
-			
-		}
-		if(e.getSource() == animation) {
-			try {
-				String[][] movies = jsoup.GetByGenre("animation");
-				for(int i = 0; i < movies.length; i++) {
-					table.setValueAt(movies[i][0], i, 0);
-					table.setValueAt(movies[i][1], i, 1);
-					table.setValueAt(movies[i][2], i, 2);
-				}	
-				label.setText("Animation");
-			} catch (IOException e1) {log.error(e1.getMessage());}
-			
-		}
-		if(e.getSource() == biography) {
-			try {
-				String[][] movies = jsoup.GetByGenre("biography");
-				for(int i = 0; i < movies.length; i++) {
-					table.setValueAt(movies[i][0], i, 0);
-					table.setValueAt(movies[i][1], i, 1);
-					table.setValueAt(movies[i][2], i, 2);
-				}
-				label.setText("Biography");
-			} catch (IOException e1) {log.error(e1.getMessage());}
-			
-		}
-		if(e.getSource() == comedy) {
-			try {
-				String[][] movies = jsoup.GetByGenre("comedy");
-				for(int i = 0; i < movies.length; i++) {
-					table.setValueAt(movies[i][0], i, 0);
-					table.setValueAt(movies[i][1], i, 1);
-					table.setValueAt(movies[i][2], i, 2);
-				}
-				label.setText("Comedy");
-			} catch (IOException e1) {log.error(e1.getMessage());}
-			
-		}
-		if(e.getSource() == crime) {
-			try {
-				String[][] movies = jsoup.GetByGenre("crime");
-				for(int i = 0; i < movies.length; i++) {
-					table.setValueAt(movies[i][0], i, 0);
-					table.setValueAt(movies[i][1], i, 1);
-					table.setValueAt(movies[i][2], i, 2);
-				}
-				label.setText("Crime");
-			} catch (IOException e1) {log.error(e1.getMessage());}
-			
-		}
-		if(e.getSource() == drama) {
-			try {
-				String[][] movies = jsoup.GetByGenre("drama");
-				for(int i = 0; i < movies.length; i++) {
-					table.setValueAt(movies[i][0], i, 0);
-					table.setValueAt(movies[i][1], i, 1);
-					table.setValueAt(movies[i][2], i, 2);
-				}
-				label.setText("Drama");
-			} catch (IOException e1) {log.error(e1.getMessage());}
-		}
-		if(e.getSource() == family) {
-			try {
-				String[][] movies = jsoup.GetByGenre("family");
-				for(int i = 0; i < movies.length; i++) {
-					table.setValueAt(movies[i][0], i, 0);
-					table.setValueAt(movies[i][1], i, 1);
-					table.setValueAt(movies[i][2], i, 2);
-				}
-				label.setText("Family");
-			} catch (IOException e1) {log.error(e1.getMessage());}
-			
-		}
-		if(e.getSource() == fantasy) {
-			try {
-				String[][] movies = jsoup.GetByGenre("fantasy");
-				for(int i = 0; i < movies.length; i++) {
-					table.setValueAt(movies[i][0], i, 0);
-					table.setValueAt(movies[i][1], i, 1);
-					table.setValueAt(movies[i][2], i, 2);
-				}
-				label.setText("Fantasy");
 			} catch (IOException e1) {log.error(e1.getMessage());}
 			
 		}
